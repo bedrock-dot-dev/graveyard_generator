@@ -1,0 +1,25 @@
+name: Run
+
+on:
+  workflow_dispatch: {}
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          submodules: true
+      - name: Update submodules
+        run: git submodule update --remote --merge
+      - name: Build
+        run: cargo build --release --locked
+      - name: Run graveyard_generator
+        run: |
+          ./target/release/graveyard_generator > graveyard.md
+          cat graveyard.md
+      - name: Upload graveyard.md
+        uses: actions/upload-artifact@v2
+        with:
+          path: graveyard.md
