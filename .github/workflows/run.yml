@@ -12,12 +12,19 @@ jobs:
         with:
           submodules: true
       - name: Update submodules
-        run: git submodule update --remote --merge
+        run: git submodule foreach git pull origin master
+      - uses: actions/cache@v2
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+            target
+          key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
       - name: Build
         run: cargo build --release --locked
       - name: Run graveyard_generator
         run: |
-          ./target/release/graveyard_generator > graveyard.md
+          cargo run --release --quiet > graveyard.md
           cat graveyard.md
       - name: Upload graveyard.md
         uses: actions/upload-artifact@v2
