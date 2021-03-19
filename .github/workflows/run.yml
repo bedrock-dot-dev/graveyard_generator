@@ -12,7 +12,7 @@ jobs:
         with:
           submodules: true
       - name: Update submodules
-        run: git submodule foreach git pull origin master
+        run: git submodule foreach git pull origin master --allow-unrelated-histories
       - uses: actions/cache@v2
         with:
           path: |
