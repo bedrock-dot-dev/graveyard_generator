@@ -1,3 +1,4 @@
 [submodule "docs"]
 	path = docs
 	url = https://github.com/bedrock-dot-dev/docs.git
+	branch = master
